@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+</head>
+<body>
+    <h1>Calc</h1>
+    <form>
+        <input class="first-number" name="first-number" type="number">
+        <select class="option" name="operator">
+            <option value="add">+</option>
+            <option value="subtract">-</option>
+            <option value="multiply">*</option>
+            <option value="divide">/</option>
+        </select>
+        <input class="second-number" name="second-number" type="number">
+        <button class="submit" type="submit">=</button>
+        <span class="result"></span>
+    </form>
+<script type="module" src="src/calculator.js"></script>
+</body>
+</html>
