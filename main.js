@@ -1,45 +1,70 @@
-const list = {};
+const todo = {
+  list: {},
+  addTask(taskName) {
+    if (typeof taskName !== 'string' || taskName.trim() === '') {
+      console.log('Ошибка: название задачи должно быть непустой строкой');
+      return;
+    }
+    if (taskName.length > 50) {
+      console.log('Ошибка: название задачи не должно превышать 50 символов');
+      return;
+    }
+    if (this.list.hasOwnProperty(taskName)) {
+      console.log(`Задача "${taskName}" уже существует!`);
+    }
+    this.list[taskName] = "To Do";
+    console.log(`Задача "${taskName}" добавлена!`);
+  },
+  changeStatus(taskName, newStatus) {
+    if (!this.list.hasOwnProperty(taskName)) {
+      console.log(`Ошибка: задача "${taskName}" не найдена!`);
+      return;
+    }
 
-const addTask = (taskName) => {
-  list[taskName] = "To Do";
-}
+    const validStatuses = ["To Do", "In Progress", "Done"];
+    if (!validStatuses.includes(newStatus)) {
+      console.log(`Ошибка: "${newStatus}" - недопустимый статус!`);
+      return;
+    }
 
-const changeStatus = (taskName, newStatus) => {
-  if (list.hasOwnProperty(taskName)) {
-    list[taskName] = newStatus;
-  } else {
-    console.log(`Задача "${taskName}" не найдена.`);
+    this.list[taskName] = newStatus;
+    console.log(`Статус задачи "${taskName}" изменён на "${newStatus}"`);
+  },
+  deleteTask(taskName) {
+    if (!this.list.hasOwnProperty(taskName)) {
+      console.log(`Ошибка: задача "${taskName}" не найдена!`);
+      return;
+    }
+
+    delete this.list[taskName];
+    console.log(`Задача "${taskName}" удалена!`);
+  },
+  showList() {
+    if (Object.keys(this.list).length === 0) {
+      console.log("Список задач пуст!");
+      return;
+    }
+
+    console.log("📝 Список задач:");
+    console.log("------------------");
+    for (const [task, status] of Object.entries(this.list)) {
+      console.log(`🔹 ${task.padEnd(40)} → ${status}`);
+    }
+    console.log("------------------");
+    console.log(`Всего задач: ${Object.keys(this.list).length}`);
   }
 }
 
-const deleteTask = (taskName) => {
-  if (list.hasOwnProperty(taskName)) {
-    delete list[taskName];
-  } else {
-    console.log(`Задача "${taskName}" не найдена.`);
-  }
-}
 
-const showList = () => {
-  console.log("Текущий список задач:");
-  for (const task in list) {
-    console.log(`- ${task}: ${list[task]}`);
-  }
-  if (Object.keys(list).length === 0) {
-    console.log("Список задач пуст!");
-  }
+todo.addTask("create a new practice task");
+todo.addTask("make a bed");
+todo.addTask("write a post");
 
-}
+todo.changeStatus("make a bed", "Done");
+todo.changeStatus("write a post", "In progress");
 
-addTask("create a new practice task");
-addTask("make a bed");
-addTask("write a post");
+todo.showList();
 
-changeStatus("make a bed", "Done");
-changeStatus("write a post", "In progress");
+todo.deleteTask("create a new practice task");
 
-showList();
-
-deleteTask("create a new practice task");
-
-showList();
+todo.showList();
