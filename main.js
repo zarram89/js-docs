@@ -1,23 +1,35 @@
 const todo = {
-  list: {},
-  addTask(taskName) {
-    if (typeof taskName !== 'string' || taskName.trim() === '') {
+  list: [],
+  addTask(name, priority = 'medium') {
+    if (typeof name !== 'string' || name.trim() === '') {
       console.log('Ошибка: название задачи должно быть непустой строкой');
       return;
     }
-    if (taskName.length > 50) {
+
+    if (name.length > 50) {
       console.log('Ошибка: название задачи не должно превышать 50 символов');
       return;
     }
-    if (this.list.hasOwnProperty(taskName)) {
-      console.log(`Задача "${taskName}" уже существует!`);
+
+    if (this.list.some((task) => task.name === name)) {
+      console.log(`Задача "${name}" уже существует!`);
+      return;
     }
-    this.list[taskName] = "To Do";
-    console.log(`Задача "${taskName}" добавлена!`);
+
+    this.list.push({
+      name,
+      status: 'To Do',
+      priority: ['low', 'medium', 'high'].includes(priority) ? priority : 'medium',
+    });
+
+    console.log(`Задача "${name}" добавлена!`);
   },
-  changeStatus(taskName, newStatus) {
-    if (!this.list.hasOwnProperty(taskName)) {
-      console.log(`Ошибка: задача "${taskName}" не найдена!`);
+
+  changeStatus(name, newStatus) {
+    const task = this.list.find((task) => task.name === name);
+
+    if (!task) {
+      console.log(`Ошибка: задача "${name}" не найдена!`);
       return;
     }
 
@@ -27,31 +39,40 @@ const todo = {
       return;
     }
 
-    this.list[taskName] = newStatus;
-    console.log(`Статус задачи "${taskName}" изменён на "${newStatus}"`);
+    task.status = newStatus;
+    console.log(`Статус задачи "${name}" изменён на "${newStatus}"`);
   },
-  deleteTask(taskName) {
-    if (!this.list.hasOwnProperty(taskName)) {
-      console.log(`Ошибка: задача "${taskName}" не найдена!`);
-      return;
-    }
 
-    delete this.list[taskName];
-    console.log(`Задача "${taskName}" удалена!`);
+  deleteTask(name) {
+    const initialLength = this.list.length;
+    this.list = this.list.filter((task) => task.name !== name);
+
+    if (this.list.length === initialLength) {
+      console.log(`Ошибка: задача "${name}" не найдена!`);
+    } else {
+      console.log(`Задача "${name}" удалена!`);
+    }
   },
+
   showList() {
-    if (Object.keys(this.list).length === 0) {
+    if (this.list.length === 0) {
       console.log("Список задач пуст!");
       return;
     }
 
     console.log("📝 Список задач:");
-    console.log("------------------");
-    for (const [task, status] of Object.entries(this.list)) {
-      console.log(`🔹 ${task.padEnd(40)} → ${status}`);
-    }
-    console.log("------------------");
-    console.log(`Всего задач: ${Object.keys(this.list).length}`);
+    console.log("--------------------------------------------------");
+    console.log("| Задача".padEnd(40) + "| Статус".padEnd(15) + "| Приоритет |");
+    console.log("--------------------------------------------------");
+
+    this.list.forEach(task => {
+      console.log(
+        `| ${task.name.padEnd(38)} | ${task.status.padEnd(13)} | ${task.priority.padEnd(9)} |`
+      );
+    });
+
+    console.log("--------------------------------------------------");
+    console.log(`Всего задач: ${this.list.length}`);
   }
 }
 
@@ -61,7 +82,7 @@ todo.addTask("make a bed");
 todo.addTask("write a post");
 
 todo.changeStatus("make a bed", "Done");
-todo.changeStatus("write a post", "In progress");
+todo.changeStatus("write a post", "In Progress");
 
 todo.showList();
 
