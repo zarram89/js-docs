@@ -1,10 +1,10 @@
 const list = {};
 
-function addTask(taskName) {
-  list[taskName] =  "To Do";
+const addTask = (taskName) => {
+  list[taskName] = "To Do";
 }
 
-function changeStatus(taskName, newStatus) {
+const changeStatus = (taskName, newStatus) => {
   if (list.hasOwnProperty(taskName)) {
     list[taskName] = newStatus;
   } else {
@@ -12,7 +12,7 @@ function changeStatus(taskName, newStatus) {
   }
 }
 
-function deleteTask(taskName) {
+const deleteTask = (taskName) => {
   if (list.hasOwnProperty(taskName)) {
     delete list[taskName];
   } else {
@@ -20,7 +20,7 @@ function deleteTask(taskName) {
   }
 }
 
-function showList() {
+const showList = () => {
   console.log("Текущий список задач:");
   for (const task in list) {
     console.log(`- ${task}: ${list[task]}`);
