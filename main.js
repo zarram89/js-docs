@@ -12,7 +12,8 @@ const todo = {
     }
 
     if (this.list.some((task) => task.name === name)) {
-      console.log(`Задача "${taskName}" уже существует!`);
+      console.log(`Задача "${name}" уже существует!`);
+      return;
     }
 
     this.list.push({
@@ -44,7 +45,7 @@ const todo = {
 
   deleteTask(name) {
     const initialLength = this.list.length;
-    this.list = this.list.filter((task) => task.name === name);
+    this.list = this.list.filter((task) => task.name !== name);
 
     if (this.list.length === initialLength) {
       console.log(`Ошибка: задача "${name}" не найдена!`);
@@ -81,7 +82,7 @@ todo.addTask("make a bed");
 todo.addTask("write a post");
 
 todo.changeStatus("make a bed", "Done");
-todo.changeStatus("write a post", "In progress");
+todo.changeStatus("write a post", "In Progress");
 
 todo.showList();
 
