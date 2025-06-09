@@ -54,28 +54,36 @@ const todo = {
     }
   },
 
-  showList() {
-    if (this.list.length === 0) {
+  showList(statusName) {
+    let tasksToShow = this.list;
+    if (statusName) {
+      tasksToShow = this.list.filter((task) => task.status === statusName);
+      if (tasksToShow.length === 0) {
+        console.log(`Задач со статусом "${statusName}" не найдено!`);
+        return;
+      }
+    } else if (this.list.length === 0) {
       console.log("Список задач пуст!");
       return;
     }
 
-    console.log("📝 Список задач:");
+    tasksToShow = [...tasksToShow].sort((a, b) => a.status.localeCompare(b.status));
+
+    console.log("📝 Список задач:" + (statusName ? ` (фильтр: ${statusName})` : ""));
     console.log("--------------------------------------------------");
     console.log("| Задача".padEnd(40) + "| Статус".padEnd(15) + "| Приоритет |");
     console.log("--------------------------------------------------");
 
-    this.list.forEach(task => {
+    tasksToShow.forEach(task => {
       console.log(
         `| ${task.name.padEnd(38)} | ${task.status.padEnd(13)} | ${task.priority.padEnd(9)} |`
       );
     });
 
     console.log("--------------------------------------------------");
-    console.log(`Всего задач: ${this.list.length}`);
+    console.log(`Всего задач: ${tasksToShow.length}${statusName ? ` (отфильтровано)` : ""}`);
   }
 }
-
 
 todo.addTask("create a new practice task");
 todo.addTask("make a bed");
@@ -84,8 +92,15 @@ todo.addTask("write a post");
 todo.changeStatus("make a bed", "Done");
 todo.changeStatus("write a post", "In Progress");
 
+console.log("\nВсе задачи (отсортированные по статусу):");
 todo.showList();
 
-todo.deleteTask("create a new practice task");
+console.log("\nТолько задачи 'In Progress':");
+todo.showList("In Progress");
 
+console.log("\nТолько задачи 'Done':");
+todo.showList("Done");
+
+console.log("\nПосле удаления задачи:");
+todo.deleteTask("create a new practice task");
 todo.showList();
