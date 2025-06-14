@@ -2,13 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Vite App</title>
+    <title>Calculator</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<div id="app"></div>
-<h1>Hello</h1>
-<script src="./main.js"></script>
+<div class="calculator">
+    <input type="number" id="firstNumber" value="5">
+    <select>
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="number" id="secondNumber" value="5">
+    <button id="calculate"> = </button>
+    <span class="result"></span>
+</div>
+<script src="./main.js">10</script>
 </body>
 </html>

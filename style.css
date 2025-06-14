@@ -1,0 +1,22 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #f8f8f8;
+}
+
+.calculator {
+    display: flex;
+    gap: 5px;
+    font-size: 20px;
+    align-items: center;
+}
+
+input, select, button {
+    font-size: 20px;
+    padding: 5px;
+    width: 50px;
+    text-align: center;
+}
