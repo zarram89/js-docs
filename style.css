@@ -9,9 +9,33 @@ body {
 
 .calculator {
     display: flex;
-    gap: 5px;
-    font-size: 20px;
     align-items: center;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.history div {
+    padding: 5px 10px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    margin: 3px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.history div:hover {
+    background: #eee;
 }
 
 input, select, button {

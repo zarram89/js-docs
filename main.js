@@ -3,6 +3,7 @@ const operatorSelect = document.getElementById('operator');
 const secondNumberInput = document.getElementById('secondNumber');
 const calculateButton = document.getElementById('calculate');
 const resultSpan = document.getElementById('result');
+const history = document.getElementById('history');
 
 function calculate(a, operator, b) {
   switch (operator) {
@@ -27,6 +28,18 @@ calculateButton.addEventListener('click', () => {
   const result = calculate(a, operator, b);
 
   resultSpan.textContent = result;
+
+  const resultDiv = document.createElement('div');
+  resultDiv.textContent = result;
+  resultDiv.style.cursor = 'pointer';
+  resultDiv.style.userSelect = 'none';
+  resultDiv.style.marginTop = '5px';
+
+  resultDiv.addEventListener('click', () => {
+    resultDiv.remove();
+  });
+
+  history.appendChild(resultDiv);
 });
 
 firstNumberInput.addEventListener('keypress', (e) => {
