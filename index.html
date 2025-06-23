@@ -1,14 +1,67 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8"/>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Vite App</title>
+    <meta charset="UTF-8">
+    <title>TODO List</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="app"></div>
-<h1>Hello</h1>
-<script src="./main.js"></script>
+<div class="todo-container">
+    <section class="todo-group">
+        <h2>HIGH</h2>
+        <form class="todo-form">
+            <input type="text" placeholder="Добавить важных дел">
+            <button type="submit">+</button>
+        </form>
+
+        <ul class="todo-list">
+            <li class="todo-item large">
+                <label>
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="todo-text">Вот вам и супер интересная тема. Вы наверняка заметили что ваши файлы с кодом становятся все объемнее, что хочется вынести некоторые вещи куда-то за пределы основной программы.</span>
+                </label>
+                <button class="delete-btn">×</button>
+            </li>
+
+            <li class="todo-item">
+                <label>
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="todo-text">Сверстать этот TODO list</span>
+                </label>
+                <button class="delete-btn">×</button>
+            </li>
+
+            <li class="todo-item done">
+                <label>
+                    <input type="checkbox" checked>
+                    <span class="custom-checkbox"></span>
+                    <span class="todo-text">Начать делать задачу</span>
+                </label>
+                <button class="delete-btn">×</button>
+            </li>
+        </ul>
+    </section>
+
+    <section class="todo-group">
+        <h2>LOW</h2>
+        <form class="todo-form">
+            <input type="text" placeholder="Добавить">
+            <button type="submit">+</button>
+        </form>
+
+        <ul class="todo-list">
+            <li class="todo-item">
+                <label>
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                    <span class="todo-text">Посмотреть ютубчик</span>
+                </label>
+                <button class="delete-btn">×</button>
+            </li>
+        </ul>
+    </section>
+</div>
 </body>
 </html>
