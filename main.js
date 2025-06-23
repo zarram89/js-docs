@@ -1,3 +1,5 @@
+import {add, subtract, multiply, divide} from "./helpers.js";
+
 const firstNumberInput = document.getElementById('firstNumber');
 const operatorSelect = document.getElementById('operator');
 const secondNumberInput = document.getElementById('secondNumber');
@@ -6,50 +8,49 @@ const resultSpan = document.getElementById('result');
 const history = document.getElementById('history');
 
 function calculate(a, operator, b) {
-  switch (operator) {
-    case '+':
-      return a + b;
-    case '-':
-      return a - b;
-    case '*':
-      return a * b;
-    case '/':
-      return a / b;
-    default:
-      throw new Error('Неизвестный оператор');
+  try {
+    switch (operator) {
+      case '+': return add(a, b);
+      case '-': return subtract(a, b);
+      case '*': return multiply(a, b);
+      case '/': return divide(a, b);
+      default: throw new Error('Unknown operator');
+    }
+  } catch (error) {
+    alert(error.message);
+    return NaN;
   }
 }
 
-calculateButton.addEventListener('click', () => {
-  const a = parseFloat(firstNumberInput.value);
-  const operator = operatorSelect.value;
-  const b = parseFloat(secondNumberInput.value);
-
-  const result = calculate(a, operator, b);
-
-  resultSpan.textContent = result;
-
+function addToHistory(result) {
   const resultDiv = document.createElement('div');
   resultDiv.textContent = result;
-  resultDiv.style.cursor = 'pointer';
-  resultDiv.style.userSelect = 'none';
-  resultDiv.style.marginTop = '5px';
+  resultDiv.classList.add('history-item');
 
   resultDiv.addEventListener('click', () => {
     resultDiv.remove();
   });
 
   history.appendChild(resultDiv);
-});
+}
 
-firstNumberInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') calculateButton.click();
-});
+function handleCalculate() {
+  const a = parseFloat(firstNumberInput.value);
+  const operator = operatorSelect.value;
+  const b = parseFloat(secondNumberInput.value);
 
-secondNumberInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') calculateButton.click();
-});
+  const result = calculate(a, operator, b);
+  resultSpan.textContent = isNaN(result) ? 'Error' : result;
 
-operatorSelect.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') calculateButton.click();
+  if (!isNaN(result)) {
+    addToHistory(result);
+  }
+}
+
+calculateButton.addEventListener('click', handleCalculate);
+
+[firstNumberInput, secondNumberInput, operatorSelect].forEach(element => {
+  element.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleCalculate();
+  });
 });
