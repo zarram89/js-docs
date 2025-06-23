@@ -95,8 +95,8 @@ input[type="checkbox"] {
     height: 16px;
     border: 1px solid #aaa;
     border-radius: 50%;
-    flex-shrink: 0; /* ← Не дает уменьшаться */
-    margin-top: 4px; /* Можно подвинуть для выравнивания */
+    flex-shrink: 0;
+    margin-top: 4px;
 }
 
 input[type="checkbox"]:checked + .custom-checkbox {
