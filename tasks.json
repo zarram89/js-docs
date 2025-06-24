@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Сходить в зал",
+    "priority": "high",
+    "status": "To Do"
+  },
+  {
+    "name": "Купить хлеб",
+    "priority": "low",
+    "status": "Done"
+  },
+  {
+    "name": "Сделать дз",
+    "priority": "high",
+    "status": "To Do"
+  },
+  {
+    "name": "Позвонить маме",
+    "priority": "low",
+    "status": "To Do"
+  },
+  {
+    "name": "Прочитать книгу",
+    "priority": "high",
+    "status": "Done"
+  }
+]

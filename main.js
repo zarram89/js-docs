@@ -5,7 +5,7 @@ const todo = {
     if (name.length < 3 || name.length > 10) {
       throw new Error(`Задача "${name}" должна быть не меньше трех символов и не более десяти`);
     }
-    this.list.push({
+    this.list.unshift({
       name,
       status: 'To Do',
       priority,
@@ -17,6 +17,7 @@ const todo = {
     if (!task) {
       throw new Error(`Задача "${name}" не найдена`);
     }
+    task.status = newStatus;
   },
 
   deleteTask(name) {
@@ -104,4 +105,21 @@ document.querySelectorAll('.todo-form').forEach((form) => {
 
 document.querySelector('.todo-container').addEventListener('click', handleClick);
 
-renderTasks();
+async function loadTasksFromJSON() {
+  try {
+    const response = await fetch('tasks.json');
+    if (!response.ok) throw new Error(`Ошибка загрузки: ${response.status}`);
+    const tasks = await response.json();
+    tasks.forEach(task => {
+      todo.list.push(task);
+    });
+    renderTasks();
+  } catch (error) {
+    alert(`Ошибка загрузки задач: ${error.message}`);
+    console.error(error);
+  }
+}
+
+(async () => {
+  await loadTasksFromJSON();
+})();
