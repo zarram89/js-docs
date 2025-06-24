@@ -2,6 +2,9 @@ const todo = {
   list: [],
 
   addTask(name, priority = 'low') {
+    if (name.length < 3 || name.length > 10) {
+      throw new Error(`Задача "${name}" должна быть не меньше трех символов и не более десяти`);
+    }
     this.list.push({
       name,
       status: 'To Do',
@@ -11,11 +14,17 @@ const todo = {
 
   changeStatus(name, newStatus) {
     const task = this.list.find((t) => t.name === name);
-    if (task) task.status = newStatus;
+    if (!task) {
+      throw new Error(`Задача "${name}" не найдена`);
+    }
   },
 
   deleteTask(name) {
+    const before = this.list.length;
     this.list = this.list.filter((t) => t.name !== name);
+    if (this.list.length === before) {
+      throw new Error(`Невозможно удалить: задача "${name}" не найдена`);
+    }
   }
 }
 
@@ -50,9 +59,16 @@ function handleSubmitForm(e) {
   if (!text) return;
 
   const priority = form.previousElementSibling.textContent.toLowerCase();
-  todo.addTask(text, priority);
-  input.value = '';
-  renderTasks();
+
+  try {
+    todo.addTask(text, priority);
+    input.value = '';
+    renderTasks();
+  } catch (error) {
+    alert(error.message); // Показываем пользователю сообщение об ошибке
+    console.error(error); // Логируем ошибку в консоль
+    input.focus(); // Возвращаем фокус в поле ввода
+  }
 }
 
 function handleClick(e) {
@@ -62,13 +78,23 @@ function handleClick(e) {
   const taskName = todoItem.querySelector('.todo-text').textContent;
 
   if (e.target.classList.contains('delete-btn')) {
-    todo.deleteTask(taskName);
-    renderTasks();
+    try {
+      todo.deleteTask(taskName);
+      renderTasks();
+    } catch (error) {
+      alert(error.message);
+      console.error(error);
+    }
   }
 
   if (e.target.matches('input[type="checkbox"]')) {
-    todo.changeStatus(taskName, e.target.checked ? 'Done' : 'To Do');
-    renderTasks();
+    try {
+      todo.changeStatus(taskName, e.target.checked ? 'Done' : 'To Do');
+      renderTasks();
+    } catch (error) {
+      alert(error.message);
+      console.error(error);
+    }
   }
 }
 
