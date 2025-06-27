@@ -1,23 +1,33 @@
+class Task {
+  constructor(name, priority = 'low') {
+    if (name.length < 3 || name.length > 30) {
+      throw new Error(`Задача "${name}" должна быть не меньше трех символов и не более тридцати`);
+    }
+    this.name = name;
+    this.priority = priority;
+    this.status = 'To Do';
+  }
+
+  toggleStatus() {
+    this.status = this.status === 'Done' ? 'To Do' : 'Done';
+  }
+}
+
+
 const todo = {
   list: [],
 
   addTask(name, priority = 'low') {
-    if (name.length < 3 || name.length > 10) {
-      throw new Error(`Задача "${name}" должна быть не меньше трех символов и не более десяти`);
-    }
-    this.list.unshift({
-      name,
-      status: 'To Do',
-      priority,
-    });
+    const task = new Task(name, priority);
+    this.list.unshift(task);
   },
 
-  changeStatus(name, newStatus) {
+  changeStatus(name) {
     const task = this.list.find((t) => t.name === name);
     if (!task) {
       throw new Error(`Задача "${name}" не найдена`);
     }
-    task.status = newStatus;
+    task.toggleStatus();
   },
 
   deleteTask(name) {
@@ -90,7 +100,7 @@ function handleClick(e) {
 
   if (e.target.matches('input[type="checkbox"]')) {
     try {
-      todo.changeStatus(taskName, e.target.checked ? 'Done' : 'To Do');
+      todo.changeStatus(taskName);
       renderTasks();
     } catch (error) {
       alert(error.message);
@@ -110,9 +120,12 @@ async function loadTasksFromJSON() {
     const response = await fetch('tasks.json');
     if (!response.ok) throw new Error(`Ошибка загрузки: ${response.status}`);
     const tasks = await response.json();
-    tasks.forEach(task => {
+    tasks.forEach(({name, priority, status}) => {
+      const task = new Task(name, priority);
+      task.status = status;
       todo.list.push(task);
     });
+
     renderTasks();
   } catch (error) {
     alert(`Ошибка загрузки задач: ${error.message}`);
